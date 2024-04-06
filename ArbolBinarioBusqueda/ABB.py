@@ -22,6 +22,8 @@ class ABB:
         elif(valor > nodo.valor):
             nodo.der = self._insert(valor, nodo.der)
         
+        self._balancear(valor, nodo)
+        
         return nodo
 
     def _balancear(self, valor, nodo):
