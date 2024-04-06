@@ -24,6 +24,64 @@ class ABB:
         
         return nodo
 
+    def _balancear(self, valor, nodo):
+
+        nodo.height = 1 + max(self._get_height(nodo.left), self._get_height(nodo.right))
+        balance = self._get_balance(nodo)
+
+        # Caso de rotación simple a la derecha
+        if balance > 1 and valor < nodo.left.key:
+            return self._rotate_right(nodo)
+
+        # Caso de rotación simple a la izquierda
+        if balance < -1 and valor > nodo.right.key:
+            return self._rotate_left(nodo)
+
+        # Caso de rotación doble a la derecha-izquierda
+        if balance > 1 and valor > nodo.left.key:
+            nodo.left = self._rotate_left(nodo.left)
+            return self._rotate_right(nodo)
+
+        # Caso de rotación doble a la izquierda-derecha
+        if balance < -1 and valor < nodo.right.key:
+            nodo.right = self._rotate_right(nodo.right)
+            return self._rotate_left(nodo)
+
+    def _get_height(self, nodo):
+        if not nodo:
+            return 0
+        return nodo.height
+
+    def _get_balance(self, nodo):
+        if not nodo:
+            return 0
+        return self._get_height(nodo.left) - self._get_height(nodo.right)
+
+    def _rotate_right(self, z):
+        y = z.left
+        T3 = y.right
+
+        y.right = z
+        z.left = T3
+
+        z.height = 1 + max(self._get_height(z.left), self._get_height(z.right))
+        y.height = 1 + max(self._get_height(y.left), self._get_height(y.right))
+
+        return y
+
+    def _rotate_left(self, z):
+        y = z.right
+        T2 = y.left
+
+        y.left = z
+        z.right = T2
+
+        z.height = 1 + max(self._get_height(z.left), self._get_height(z.right))
+        y.height = 1 + max(self._get_height(y.left), self._get_height(y.right))
+
+        return y
+
+
 
     def buscar(self, valor, nodo):
         if nodo is None:
