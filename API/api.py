@@ -2,9 +2,11 @@ from flask import Flask, request, jsonify
 
 app = Flask(__name__)
 
+arreglo = [1,2,3,4]
+
 @app.route('/', methods=['GET', 'POST'])
 def index():
-    return jsonify({'respuesta':'done'}),200
+    return jsonify({'respuesta':arreglo}),200
 
 @app.route('/saludar/<nombre>', methods=['GET'])
 def saludar(nombre):
